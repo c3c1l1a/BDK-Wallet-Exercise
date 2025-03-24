@@ -20,14 +20,14 @@ async function getMnemonic() {
     console.log("Retrieved existing mnemonic seed...");
     return mnemonic;
   } catch (error) {
-    // if (error.code === 'ENOENT') { // File doesn’t exist
-    //   console.log("Generating new mnemonic seed...");
-    //   const mnemonic = generateMnemonic(128); // 12 words
-    //   await fs.writeFile(mnemonicFile, mnemonic, 'utf8');
-    //   console.log(`Mnemonic saved to ${mnemonicFile}: ${mnemonic}`);
-    //   return mnemonic;
-    // }
-    // throw error; // Other errors (e.g., permissions)
+    if (error.code === 'ENOENT') { // File doesn’t exist
+      console.log("Generating new mnemonic seed...");
+      const mnemonic = generateMnemonic(128); // 12 words
+      await fs.writeFile(mnemonicFile, mnemonic, 'utf8');
+      console.log(`Mnemonic saved to ${mnemonicFile}: ${mnemonic}`);
+      return mnemonic;
+    }
+    throw error; // Other errors (e.g., permissions)
   }
 }
 
@@ -65,8 +65,8 @@ async function getMnemonic() {
   let totalBalance = 0;
   for (const address of addresses) {
     const utxos = await blockchain.fetchTxHistory({address: address});
-    const balance = utxos.reduce((sum, utxo) => sum + utxo.value, 0);
-    totalBalance += balance;
+    const balance = await blockchain.fetchAddress(address);
+    totalBalance += balance.balance;
   }
   console.log(`Balance: ${totalBalance} satoshis (${totalBalance / 100000000} BTC)`);
 
