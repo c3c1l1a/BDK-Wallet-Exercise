@@ -63,11 +63,14 @@ async function getMnemonic() {
 
   await blockchain.connect();
   let totalBalance = 0;
+  let utxos = [];
   for (const address of addresses) {
-    const utxos = await blockchain.fetchTxHistory({address: address});
+    const utxo = await blockchain.fetchTxHistory({address: address});
+    if (utxo && utxo[0] !== undefined) utxos.push(utxo[0].txId)
     const balance = await blockchain.fetchAddress(address);
     totalBalance += balance.balance;
   }
+  console.log(`txId: ${utxos[0]}`)
   console.log(`Balance: ${totalBalance} satoshis (${totalBalance / 100000000} BTC)`);
 
   // Step 6: Verify funding
@@ -80,36 +83,3 @@ async function getMnemonic() {
   await blockchain.close();
 })();
 
-
-
-
-
-
-
-// console.log("\nSynchronizing with testnet...");
-// const blockchain = new ElectrumExplorer({
-//   network: bitcoin.networks.testnet,
-//   host: 'electrum.blockstream.info',
-//   port: 60002,
-//   protocol: 'ssl',
-// });
-
-// (async () => {
-//   await blockchain.connect();
-//   let totalBalance = 0;
-//   for (const address of addresses) {
-//     const utxos = await blockchain.fetchTxHistory({address: address});
-//     const balance = utxos.reduce((sum, utxo) => sum + utxo.value, 0);
-//     totalBalance += balance;
-//   }
-//   console.log(`Balance: ${totalBalance} satoshis (${totalBalance / 100000000} BTC)`);
-
-//   // Step 6: Verify funding
-//   if (totalBalance > 0) {
-//     console.log("Funding confirmed—wallet is active.");
-//   } else {
-//     console.log("No funds detected—continue funding.");
-//   }
-
-//   await blockchain.close();
-// })();

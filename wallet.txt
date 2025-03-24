@@ -1,0 +1,13 @@
+/home/cess/Desktop/BDK-Wallet-Exercise/mnemonic.txt
+Retrieved existing mnemonic seed...
+Mnemonic: jungle inspire game dish lizard total hotel dinosaur claim fly mountain prefer
+
+Generated Addresses:
+Address 1: tb1qlqam9wwtugex2yal2qgk8z2ch25jcu64vdrhhv
+Address 2: tb1qj7dd2gjk60m93ldap5sfcrulrc9wlapkfxgy6j
+Address 3: tb1qjdzctkwjzdgy3cvw4heek0ljx2746gr7mf79kz
+
+Synchronizing with testnet...
+txId: eb23fd83631906a78f4e137829924a0dfe7fab171fba99cc1e422332759e8441
+Balance: 1300 satoshis (0.000013 BTC)
+Funding confirmed—wallet is active.
